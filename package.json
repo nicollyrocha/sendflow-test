@@ -4,7 +4,9 @@
   "main": "index.js",
   "author": "Nicolly Rocha <nicollyrcs.dev@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "firebase": "^12.10.0"
-  }
+  "private": true,
+  "workspaces": [
+    "web",
+    "functions"
+  ]
 }
