@@ -16,6 +16,12 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Path aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@functions/*": ["../functions/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

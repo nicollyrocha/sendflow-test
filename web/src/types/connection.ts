@@ -1,11 +1,11 @@
 export interface Connection {
   id: string;
   name: string;
-  clientId: string;
+  userId: string;
   createdAt?: Date;
 }
 
 export interface CreateConnectionDTO {
   name: string;
-  clientId: string;
+  userId: string;
 }

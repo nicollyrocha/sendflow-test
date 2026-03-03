@@ -24,8 +24,5 @@ export const getConnections = async (db: Firestore, userId: string) => {
 
   const snapshot = await getDocs(q);
 
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  return snapshot.docs;
 };
