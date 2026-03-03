@@ -6,11 +6,13 @@ export const UiDialog = ({
   handleClose,
   onClickConfirm,
   children,
+  disabled,
 }: {
   open: boolean;
   handleClose: () => void;
   onClickConfirm: () => void;
   children: React.ReactNode;
+  disabled?: boolean;
 }) => {
   return (
     <React.Fragment>
@@ -25,7 +27,7 @@ export const UiDialog = ({
           <Button onClick={handleClose} color="inherit">
             Cancel
           </Button>
-          <Button onClick={onClickConfirm} color="error">
+          <Button onClick={onClickConfirm} color="error" disabled={disabled}>
             Confirmar
           </Button>
         </DialogActions>

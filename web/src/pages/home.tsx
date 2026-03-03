@@ -1,10 +1,10 @@
 import { Layout } from "../layouts";
 import { ConnectionsList } from "../components/ConnectionsList";
 import { useAuth } from "../hooks/useAuth";
-import { CreateConnection } from "../components/createConnection";
 import { Box, Typography } from "@mui/material";
 import { CreateContact } from "../components/CreateContact";
 import { ContactsList } from "../components/ContactsList";
+import { CreateConnection } from "../components/CreateConnection";
 
 export const Home = () => {
   const { user, loading } = useAuth();
@@ -14,7 +14,7 @@ export const Home = () => {
   return (
     <Layout>
       {user && (
-        <div className="flex flex-col gap-10 w-full max-w-280 mx-auto mt-12">
+        <div className="flex flex-col gap-10 w-full max-w-300 mx-auto mt-12 mb-10">
           <Box className="flex flex-col text-start">
             <Typography variant="h4" className="font-bold mb-2">
               Send<span className="text-blue-700">Flow</span>
@@ -23,7 +23,7 @@ export const Home = () => {
               Gerencie suas conexões e contatos
             </Typography>
           </Box>
-          <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
             <Box
               sx={{
                 display: "flex",
@@ -31,7 +31,7 @@ export const Home = () => {
                 gap: 2,
                 width: {
                   xs: "100%",
-                  md: 550,
+                  lg: 550,
                 },
                 flexShrink: 0,
               }}
@@ -46,7 +46,7 @@ export const Home = () => {
                 gap: 2,
                 width: {
                   xs: "100%",
-                  md: 550,
+                  lg: 550,
                 },
                 flexShrink: 0,
               }}

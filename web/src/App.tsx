@@ -6,6 +6,7 @@ import { Register } from "./pages/register";
 import theme from "./config/theme";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Home } from "./pages/home";
+import { Messages } from "./pages/messages";
 
 function App() {
   return (
@@ -20,6 +21,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/messages"
+            element={
+              <ProtectedRoute>
+                <Messages />
               </ProtectedRoute>
             }
           />

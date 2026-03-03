@@ -1,13 +1,15 @@
 import {
   collection,
   addDoc,
-  getDocs,
   query,
   where,
   Firestore,
   updateDoc,
   doc,
   deleteDoc,
+  onSnapshot,
+  QuerySnapshot,
+  DocumentData,
 } from "firebase/firestore";
 
 export const createContact = async (
@@ -24,12 +26,14 @@ export const createContact = async (
   });
 };
 
-export const getContacts = async (db: Firestore, userId: string) => {
+export const subscribeToContacts = (
+  db: Firestore,
+  userId: string,
+  onUpdate: (snapshot: QuerySnapshot<DocumentData>) => void,
+  onError?: (error: Error) => void,
+) => {
   const q = query(collection(db, "contacts"), where("userId", "==", userId));
-
-  const snapshot = await getDocs(q);
-
-  return snapshot.docs;
+  return onSnapshot(q, onUpdate, onError);
 };
 
 export const updateContact = async (

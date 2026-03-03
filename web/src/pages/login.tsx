@@ -1,16 +1,26 @@
-import { useState } from "react";
-import { Button, CircularProgress, Input, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import { UiCard } from "../components/UiCard";
 import { login } from "@functions/auth.service";
 import { auth } from "../config/firebase";
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { UiInput } from "../components/UiInput";
+import { validateEmail } from "../utils";
 
 export const Login = () => {
   const [userData, setUserData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      navigate("/home", { replace: true });
+    }
+  }, [authLoading, user, navigate]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,34 +48,44 @@ export const Login = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-blue-800 to-blue-950 h-screen flex items-center justify-center">
-      <UiCard className="w-6/12 p-0">
-        <div className=" flex flex-row">
-          <div className="bg-gradient-to-r from-blue-700 to-blue-800 w-1/2 h-96 text-white flex flex-col items-center justify-center">
+    <div className="bg-linear-to-b from-blue-800 to-blue-950 h-screen flex items-center justify-center">
+      <UiCard className="md:w-6/12 p-0 border-none flex flex-row">
+        <div className="flex flex-row">
+          <div className="hidden bg-linear-to-r from-blue-700 to-blue-800 md:w-1/2 h-96 text-white md:flex flex-col items-center justify-center">
             <Typography variant="h4" className="p-4 font-bold">
               Welcome Back!
             </Typography>
           </div>
           <form
             onSubmit={handleSignIn}
-            className="w-1/2 h-96 bg-gray-100 flex flex-col items-center justify-center py-10 gap-7"
+            className="md:w-1/2 h-96 bg-gray-100 flex flex-col items-center justify-center"
           >
             <Typography
               variant="h5"
-              className="mb-6 font-bold pb-6"
+              className="mb-6 font-bold pb-10"
               fontWeight={550}
             >
               Login
             </Typography>
-            <Input
-              placeholder="Email"
+            <UiInput
+              label="Email"
+              className="mb-4 w-3/4"
               value={userData.email}
               onChange={(e) =>
                 setUserData({ ...userData, email: e.target.value })
               }
+              error={
+                validateEmail(userData.email) === false && userData.email !== ""
+              }
+              helperText={
+                validateEmail(userData.email) === false && userData.email !== ""
+                  ? "Email inválido"
+                  : ""
+              }
             />
-            <Input
-              placeholder="Password"
+            <UiInput
+              label="Password"
+              className="mb-4 w-3/4"
               type="password"
               value={userData.password}
               onChange={(e) =>
@@ -77,15 +97,27 @@ export const Login = () => {
                 {error}
               </Typography>
             )}
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSignIn}
-              disabled={loading}
-              type="submit"
-            >
-              {loading ? <CircularProgress size={20} /> : "Login"}
-            </Button>
+            <div className="flex flex-col">
+              <Button
+                variant="contained"
+                color="primary"
+                className="mb-4"
+                disabled={loading}
+                type="submit"
+              >
+                {loading ? <CircularProgress size={20} /> : "Login"}
+              </Button>
+              <Button
+                variant="text"
+                color="primary"
+                className="mb-4"
+                onClick={() => navigate("/")}
+                disabled={loading}
+                type="button"
+              >
+                Register
+              </Button>
+            </div>
           </form>
         </div>
       </UiCard>

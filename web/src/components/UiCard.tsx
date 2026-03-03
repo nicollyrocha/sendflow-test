@@ -22,7 +22,9 @@ export const UiCard = ({
       }}
       className={`rounded-xl shadow-lg border border-gray-200 ${className ?? ""}`}
     >
-      <CardContent style={{ padding: 0 }}>{children}</CardContent>
+      <CardContent style={{ padding: 0, width: "100%" }}>
+        {children}
+      </CardContent>
       {actions && <CardActions>{actions}</CardActions>}
     </Card>
   );

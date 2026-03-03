@@ -12,36 +12,24 @@ import { logout } from "@functions/auth.service";
 import { FirebaseError } from "firebase/app";
 import { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
-import {
-  Alert,
-  CircularProgress,
-  Snackbar,
-  type SnackbarOrigin,
-} from "@mui/material";
-
-interface State extends SnackbarOrigin {
-  open: boolean;
-}
+import { CircularProgress } from "@mui/material";
+import { UiSnackBar } from "./UiSnackBar";
 
 export const UiHeader = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
   const [error, setError] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [state, setState] = useState<State>({
-    open: error ? true : false,
-    vertical: "top",
-    horizontal: "right",
-  });
-  const { vertical, horizontal, open } = state;
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMenuClose = () => {
+  const handleMenuClose = (page: string) => {
     setAnchorEl(null);
+    navigate(`/${page.toLowerCase()}`);
   };
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -58,33 +46,26 @@ export const UiHeader = () => {
       } else {
         setError("Erro desconhecido ao fazer logout");
       }
+      setOpenSnackbar(true);
       console.error("Erro:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleClose = () => {
-    setState({ ...state, open: false });
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+    setError("");
   };
 
   return (
     <Box>
-      <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
-        open={open}
-        onClose={handleClose}
-        key={vertical + horizontal}
-      >
-        <Alert
-          onClose={handleClose}
-          severity="error"
-          variant="filled"
-          sx={{ width: "100%", marginTop: "50px" }}
-        >
-          {error}
-        </Alert>
-      </Snackbar>
+      <UiSnackBar
+        open={openSnackbar}
+        message={error}
+        severity="error"
+        onClose={handleCloseSnackbar}
+      />
       <AppBar position="static" sx={{ backgroundColor: "#193cb8" }}>
         <Toolbar>
           <IconButton
@@ -107,9 +88,10 @@ export const UiHeader = () => {
       </AppBar>
 
       <Menu anchorEl={anchorEl} open={openMenu} onClose={handleMenuClose}>
-        <MenuItem onClick={handleMenuClose}>Home</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
+        <MenuItem onClick={() => handleMenuClose("home")}>Home</MenuItem>
+        <MenuItem onClick={() => handleMenuClose("messages")}>
+          Messages
+        </MenuItem>
       </Menu>
     </Box>
   );
