@@ -2,9 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-const apiKey =
-  import.meta.env.VITE_API_KEY_FIREBASE ||
-  "AIzaSyCQHdZlZxA-i-yq-WvSbA1uhVT77eyMbRI";
+const apiKey = import.meta.env.VITE_API_KEY_FIREBASE;
+
+if (!apiKey) {
+  throw new Error(
+    "Missing VITE_API_KEY_FIREBASE. Set it in .env (dev) or GitHub Secrets (CI)",
+  );
+}
 
 const firebaseConfig = {
   apiKey,
