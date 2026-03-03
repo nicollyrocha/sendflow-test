@@ -2,9 +2,11 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-const firebaseApiKey =
-  import.meta.env.VITE_API_KEY_FIREBASE?.trim() ||
-  "AIzaSyCQHdZlZxA-i-yq-WvSbA1uhVT77eyMbRI";
+const firebaseApiKey = import.meta.env.VITE_API_KEY_FIREBASE?.trim();
+
+if (!firebaseApiKey) {
+  throw new Error("Missing VITE_API_KEY_FIREBASE environment variable");
+}
 
 const firebaseConfig = {
   apiKey: firebaseApiKey,
