@@ -2,8 +2,16 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
+const apiKey = import.meta.env.VITE_API_KEY_FIREBASE;
+
+if (!apiKey) {
+  throw new Error(
+    "Missing VITE_API_KEY_FIREBASE. Set it in .env.local (dev) or GitHub Secrets (CI)",
+  );
+}
+
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_API_KEY_FIREBASE,
+  apiKey,
   authDomain: "sendflow-test-533e0.firebaseapp.com",
   projectId: "sendflow-test-533e0",
   storageBucket: "sendflow-test-533e0.firebasestorage.app",
