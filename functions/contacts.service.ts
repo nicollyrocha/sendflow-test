@@ -3,13 +3,15 @@ import {
   addDoc,
   query,
   where,
-  Firestore,
   updateDoc,
   doc,
   deleteDoc,
   onSnapshot,
-  QuerySnapshot,
+} from "firebase/firestore";
+import type {
   DocumentData,
+  Firestore,
+  QuerySnapshot,
 } from "firebase/firestore";
 
 export const createContact = async (

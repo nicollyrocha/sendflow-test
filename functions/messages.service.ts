@@ -3,14 +3,16 @@ import {
   addDoc,
   query,
   where,
-  Firestore,
   onSnapshot,
-  QuerySnapshot,
-  DocumentData,
   getDocs,
   updateDoc,
   deleteDoc,
   doc,
+} from "firebase/firestore";
+import type {
+  DocumentData,
+  Firestore,
+  QuerySnapshot,
 } from "firebase/firestore";
 
 export const createMessage = async (

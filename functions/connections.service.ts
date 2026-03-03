@@ -3,13 +3,15 @@ import {
   addDoc,
   query,
   where,
-  Firestore,
   onSnapshot,
-  QuerySnapshot,
-  DocumentData,
   doc,
   updateDoc,
   deleteDoc,
+} from "firebase/firestore";
+import type {
+  DocumentData,
+  Firestore,
+  QuerySnapshot,
 } from "firebase/firestore";
 
 export const createConnection = async (
