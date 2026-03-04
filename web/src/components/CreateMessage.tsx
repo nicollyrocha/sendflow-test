@@ -22,18 +22,16 @@ export const CreateMessage = () => {
   const [data, setData] = useState<{
     message: string;
     scheduleDate: dayjs.Dayjs | null;
+    selectedConnection: { id: string; name: string };
+    selectedContacts: MultipleSelectOption[];
   }>({
     message: "",
     scheduleDate: null,
+    selectedConnection: { id: "", name: "" },
+    selectedContacts: [],
   });
-  const [selectedConnection, setSelectedConnection] = useState({
-    id: "",
-    name: "",
-  });
-  const [selectedContacts, setSelectedContacts] = useState<
-    MultipleSelectOption[]
-  >([]);
   const [loading, setLoading] = useState(false);
+
   const { connections } = useConnections();
   const { contacts } = useContacts();
   const [snackbarInfo, setSnackbarInfo] = useState<{
@@ -62,8 +60,8 @@ export const CreateMessage = () => {
       createMessage(
         db,
         user?.uid,
-        selectedConnection,
-        selectedContacts
+        data.selectedConnection,
+        data.selectedContacts
           .filter(
             (c): c is MultipleSelectOption & { id: string } =>
               c.id !== undefined,
@@ -76,9 +74,14 @@ export const CreateMessage = () => {
         setData({
           message: "",
           scheduleDate: null,
+          selectedConnection: { id: "", name: "" },
+          selectedContacts: [],
         });
-        setSelectedConnection({ id: "", name: "" });
-        setSelectedContacts([]);
+        setData((prev) => ({
+          ...prev,
+          selectedConnection: { id: "", name: "" },
+          selectedContacts: [],
+        }));
         setLoading(false);
         setSnackbarInfo({
           open: true,
@@ -119,14 +122,17 @@ export const CreateMessage = () => {
               <UiSelect
                 label="Conexões"
                 options={connectionOptions}
-                value={selectedConnection.id}
+                value={data.selectedConnection.id}
                 onChange={(e) =>
-                  setSelectedConnection(
-                    connections.find((c) => c.id === e.target.value) || {
+                  setData((prev) => ({
+                    ...prev,
+                    selectedConnection: connections.find(
+                      (c) => c.id === e.target.value,
+                    ) || {
                       id: "",
                       name: "",
                     },
-                  )
+                  }))
                 }
               />
               <UiMultipleSelect
@@ -136,8 +142,10 @@ export const CreateMessage = () => {
                   id: c.id,
                   title: c.name,
                 }))}
-                value={selectedContacts}
-                onChange={(value) => setSelectedContacts(value)}
+                value={data.selectedContacts}
+                onChange={(value) =>
+                  setData((prev) => ({ ...prev, selectedContacts: value }))
+                }
               />
             </Box>
             <UiInput
@@ -162,8 +170,8 @@ export const CreateMessage = () => {
                 onClick={handleSubmit}
                 disabled={
                   loading ||
-                  !selectedConnection.id ||
-                  selectedContacts.length === 0 ||
+                  !data.selectedConnection.id ||
+                  data.selectedContacts.length === 0 ||
                   !data.message
                 }
               >

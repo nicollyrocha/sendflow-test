@@ -96,7 +96,9 @@ export const MessagesList = () => {
 
                     <div className="text-xs text-gray-500">
                       Enviada em{" "}
-                      {formatDateTime(message.scheduleDate || new Date())}
+                      {formatDateTime(
+                        message.scheduleDate || message.createdAt,
+                      )}
                     </div>
                   </Box>
                 </UiCard>
