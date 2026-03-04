@@ -52,6 +52,7 @@ export const ContactsList = () => {
     } else if (openDialog.type === "delete") {
       await handleDeleteContact(selectedContact!.id);
     }
+    setOpenDialog({ status: false, type: "" });
   };
 
   return (
