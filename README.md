@@ -41,23 +41,6 @@ sendflow-test/
    firebase deploy --only firestore:rules
    ```
 
-## 🚀 Deploy (Hosting)
-
-Fluxo validado neste projeto (Yarn workspaces + Vite):
-
-```bash
-# na raiz do projeto
-yarn install --frozen-lockfile
-yarn --cwd web build
-firebase deploy --only hosting
-```
-
-Observação: o `firebase.json` já está com `predeploy` configurado para executar `yarn --cwd web build`. Então, no dia a dia, você pode rodar apenas:
-
-```bash
-firebase deploy --only hosting
-```
-
 ## 🛠️ Instalação
 
 ```bash
