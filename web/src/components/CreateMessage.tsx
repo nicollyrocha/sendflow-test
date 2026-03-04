@@ -160,6 +160,12 @@ export const CreateMessage = () => {
                 color="primary"
                 className="mt-5"
                 onClick={handleSubmit}
+                disabled={
+                  loading ||
+                  !selectedConnection.id ||
+                  selectedContacts.length === 0 ||
+                  !data.message
+                }
               >
                 {loading ? <CircularProgress size={20} /> : "Enviar Mensagem"}
               </Button>
